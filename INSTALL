@@ -1,6 +1,10 @@
-
 Clone the repository BEFORE setting up the virtual environment since you
 can't git clone into a non-empty directory.
+
+If you are looking to help develop pyrpgwnn, you should use github's "Fork"
+option at https://github.com/rpgwnn/pyrpgwnn to create a copy within your
+own github account. Once that has been done, you should use the clone URL
+of your forked repository in the following command.
 
   git clone https://github.com/rpgwnn/pyrpgwnn.git pyrpgwnn
 
@@ -10,7 +14,8 @@ The command is likely to be something like this:
 
   virtualenv-3.3 pyrpgwnn
 
-If you only have Python 3, you can use the normal virtualenv program.
+If you only have Python 3 installed on your system, you can use the normal
+virtualenv program.
 
   virtualenv pyrpgwnn
 
