@@ -1,0 +1,30 @@
+
+Clone the repository BEFORE setting up the virtual environment since you
+can't git clone into a non-empty directory.
+
+  git clone https://github.com/rpgwnn/pyrpgwnn.git pyrpgwnn
+
+Assuming your system default is Python 2, but you have installed Python 3
+separately, you'll need to create a virtual environment that uses Python 3.
+The command is likely to be something like this:
+
+  virtualenv-3.3 pyrpgwnn
+
+If you only have Python 3, you can use the normal virtualenv program.
+
+  virtualenv pyrpgwnn
+
+The virtual environment should create several directories including bin,
+include and lib. The project .gitignore is setup to exclude those from
+the repository and you should not create anything project specific in
+these directories.
+
+Before doing any development, ensure you activate the virtual environment.
+
+  source pyrpgwnn/bin/activate
+
+Next:
+
+  cd pyrpgwnn
+
+and then you can run the application, hack on the code, etc.
