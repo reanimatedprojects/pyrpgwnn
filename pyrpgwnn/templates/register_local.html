@@ -1,0 +1,20 @@
+{% extends "layouts/main.html" %}
+{% block content %}
+<div style='width:300px;margin:30px auto 0px auto'>
+{% if result is defined %}
+<div class="infobox {{ result.status if result is defined and result.status is defined }}">{% if result.message is defined %}{{result.message }}{% else %}{{ result.error }}{% endif %}</div>
+{% endif %}
+
+<form method="post" action="/register/local">
+<fieldset>
+<legend>Enter your details</legend>
+<label for="email" class="{{ 'error' if result is defined and result.bad_email is defined }}">Email</label>
+ <input id="email" name="email" type="text" /><br />
+<label for="password" class="{{ 'error' if result is defined and result.bad_password is defined }}">Password</label>
+ <input id="password" name="password" type="password" /><br />
+<input style='float:right' type="submit" value="Continue" />
+</fieldset>
+</form>
+
+</div>
+{% endblock %}
