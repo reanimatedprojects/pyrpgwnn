@@ -62,5 +62,10 @@ include/
 lib/
 # lib64 is sometimes a symlink to lib
 lib64
+# pyvenv virtualenv config
+pyvenv.cfg
 
 pip-selfcheck.json
+
+# sqlite test database
+pyrpgwnn/rpgwnn.db
