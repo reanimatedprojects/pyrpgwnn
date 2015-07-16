@@ -38,3 +38,12 @@ If you have not yet installed any of the required Python modules into
 the virtual environment, you should run:
 
   pip install -r requirements.txt
+
+After this, setup the database
+
+  ./shell.py
+  >>> from pyrpgwnn import db
+  >>> db.create_all()
+  >>> quit()
+
+the file pyrpgwnn/rpgwnn.db has been created
