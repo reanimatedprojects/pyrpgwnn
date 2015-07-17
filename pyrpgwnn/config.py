@@ -3,6 +3,9 @@ _basedir = os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = True
 
+# This is for encrypting the sessions, please change it!
+SECRET_KEY = 'something really secret'
+
 AUTHS = {
 # Local accounts (username/password)
 # This would normally be enabled for everyone

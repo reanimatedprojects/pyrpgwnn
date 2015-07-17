@@ -1,0 +1,21 @@
+{% extends "layouts/main.html" %}
+{% block content %}
+<div style='width:300px;margin:30px auto 0px auto'>
+
+<form method="post" action="/login">
+<fieldset>
+<legend>Login using</legend>
+<ul style='list-style-type:none'>
+{# Make sure the local account option is always first. #}
+{% if auths['local'] %}<li><input id="at_local" name="auth_type" type="radio" value="local" checked="checked" /><label for="at_local">Local account</label></li>{% endif %}
+{# Then loop through any other authentication methods #}
+{% for authtype in auths.keys() if not authtype == 'local' %}
+<li><input id="at_{{ authtype }}" name="auth_type" type="radio" value="{{ authtype }}" /><label for="at_{{ authtype }}">{{ auths[authtype].name }}</label></li>
+{% endfor %}
+</ul>
+<input style='float:right' type="submit" value="Continue" />
+</fieldset>
+</form>
+
+</div>
+{% endblock %}
