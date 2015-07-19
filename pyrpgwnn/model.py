@@ -8,6 +8,7 @@ class Account(db.Model):
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     max_characters = db.Column(db.Integer, nullable=False, default=3)
     characters = db.relationship('Character', backref='account', lazy='dynamic')
+    account_auths = db.relationship('AccountAuth', backref='account', lazy='dynamic')
 
     def is_active(self):
         """True, as all users are active."""
@@ -38,6 +39,7 @@ class AccountAuthLocal(db.Model):
     __tablename__ = 'account_auth_local'
     id = db.Column(db.Integer, primary_key=True)
     account_auth_id = db.Column(db.Integer, db.ForeignKey('account_auth.account_auth_id'))
+    # Extra parameters required specifically for this auth method
     # Encrypted password
     password = db.Column(db.String(255), nullable=False)
 
