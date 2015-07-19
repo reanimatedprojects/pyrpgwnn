@@ -1,11 +1,14 @@
 from flask import Flask,redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
+from flask.ext.bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config.from_object('pyrpgwnn.config')
 
 db = SQLAlchemy(app)
+
+flask_bcrypt = Bcrypt(app)
 
 # Session management using Flask-Login extension
 login_manager = LoginManager()

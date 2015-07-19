@@ -19,7 +19,7 @@ class Account(db.Model):
 
     def is_authenticated(self):
         """Return True if the user is authenticated."""
-        return self.authenticated
+        return (self.account_id is not None)
 
     def is_anonymous(self):
         """False, as anonymous users aren't supported."""
@@ -27,6 +27,19 @@ class Account(db.Model):
 
     def __repr__(self):
         return '<Account %r (%d)>' % ( self.email, self.account_id )
+
+class AccountAuth(db.Model):
+    __tablename__ = 'account_auth'
+    account_auth_id = db.Column(db.Integer, primary_key=True)
+    account_id = db.Column(db.Integer, db.ForeignKey('account.account_id'))
+    auth_type = db.Column(db.String(10), nullable=False)
+
+class AccountAuthLocal(db.Model):
+    __tablename__ = 'account_auth_local'
+    id = db.Column(db.Integer, primary_key=True)
+    account_auth_id = db.Column(db.Integer, db.ForeignKey('account_auth.account_auth_id'))
+    # Encrypted password
+    password = db.Column(db.String(255), nullable=False)
 
 class Character(db.Model):
     character_id = db.Column(db.Integer, primary_key=True)

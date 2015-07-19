@@ -1,18 +1,20 @@
 from flask import render_template, redirect, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from pyrpgwnn import app, db, login_manager
+from pyrpgwnn import app, db, login_manager, flask_bcrypt
+from pyrpgwnn.model import Account
+from .forms import *
 
 # https://flask-login.readthedocs.org/en/latest/
 
 @login_manager.user_loader
 def user_loader(userid):
-    # Return None if the account is not valid
+    # Returns None if the account is not valid. userid is the email address
     # This doesn't do the actual authentication
-    return Account.query.get(userid)
+    return Account.query.filter_by(email=userid).one()
 
 @app.before_request
 def before_request():
-    g.user = current_user
+    g.account = current_user
 
 @app.route('/')
 @app.route('/index')
@@ -77,20 +79,44 @@ def login():
 
 @app.route('/login/local', methods=['GET', 'POST'])
 def login_local():
-
-    if g.user is not None and g.user.is_authenticated():
+    if g.account is not None and g.account.is_authenticated():
+        print("Already logged in as " + g.account.email)
         return redirect(url_for('account'))
 
     # FIXME: Fill in code to check login
 
+    form = LoginLocalForm()
+
+    print(form.email.data)
+
+    if form.is_submitted():
+        print("submitted")
+
+    if form.validate():
+        print("validated")
+
+    if form.validate_on_submit():
+        account = Account.query.filter_by(email = form.email.data).first()
+        print(account)
+        # if account and flask_bcrypt.check_password_hash(account.password, form.password.data):
+        if account and flask_bcrypt.check_password_hash('$2a$12$NmPLLbCTttv74jLV.5KojusYErzFwCyz6Iqi5Q3f19ZHrSJqfSwRe', form.password.data):
+            print("authenticated")
+            account.authenticated = True
+            # this saves the account object in the db.. eg for 'last login' timestamps.
+
+            #db.session.add(account)
+            #db.session.commit()
+            login_user(account, remember=True)
+            return redirect(url_for('account'))
+
     # return flask.render_template('login_local.html', form=form)
-    return render_template('login_local.html')
+    return render_template('login_local.html', form=form)
 
 
 @app.route('/account')
 @login_required
 def account():
-    return "Your Account"  # FIXME: Placeholder for actual content
+    return render_template('account.html')
 
 
 @app.route('/logout')

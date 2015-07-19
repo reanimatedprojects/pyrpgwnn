@@ -17,5 +17,8 @@ AUTHS = {
 # This should usually be left as utf-8
 CHARSET = 'utf-8'
 
+WTF_CSRF_ENABLED = True
+WTF_CSRF_SECRET_KEY = 'a random string'
+
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'rpgwnn.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(_basedir, 'db_repository')

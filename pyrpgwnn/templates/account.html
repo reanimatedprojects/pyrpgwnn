@@ -1,0 +1,33 @@
+{% extends "layouts/main.html" %}
+{% block content %}
+
+<h1>Account</h1>
+
+<p>You are logged in as account id {{ g.account.account_id }}</p>
+
+<p>{{ g.account.email }}</p>
+
+{#
+<p>You have {{ g.account.characters.count }}
+character{% if g.account.characters.count != 1: 's' %}
+out of a maximum of {{ g.account.max_characters }}.</p>
+
+{% if g.account.characters.count < g.account.max_characters %}<p><a href="/character/create">Create a new character</a></p>{% endif %}
+#}
+<table>
+<tr>
+    <th>Id</th>
+    <th>Name</th>
+</tr>
+{% for character in characters %}
+<tr>
+    <td>{{ character.character_id }}</td>
+    <td>{{ character.name }}</td>
+    <td>
+        [ <a href="/character/{{ character.character_id }}">Profile</a> ]
+        [ <a href="/character/login/{{ character.character_id }}">Play</a> ]
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
