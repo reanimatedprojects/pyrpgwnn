@@ -6,13 +6,10 @@ DEBUG = True
 # This is for encrypting the sessions, please change it!
 SECRET_KEY = 'something really secret'
 
-AUTHS = {
-# Local accounts (username/password)
-# This would normally be enabled for everyone
-    'local': {
-        'name': 'Local',
-    },
-}
+AUTHS = { }
+
+AUTH_ENABLE_LOCAL = True
+AUTH_ENABLE_FACEBOOK = False
 
 # This should usually be left as utf-8
 CHARSET = 'utf-8'
