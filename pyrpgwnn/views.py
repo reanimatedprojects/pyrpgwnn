@@ -21,6 +21,14 @@ def before_request():
 def index():
     return render_template('index.html')
 
+"""
+/register - create a new account
+    GET - if only one valid authentication method, redirect to it
+        else display a list of authentication methods in a form
+
+    POST - take the form content and redirect to the correct
+        registration location if the provided auth_type is valid.
+"""
 @app.route('/register')
 def register():
     auth_methods = list(app.config['AUTHS'].keys())
@@ -29,6 +37,17 @@ def register():
         return redirect(url_for('register_' + auth_key), code=302)
 
     return render_template('register.html', auths=app.config['AUTHS'])
+
+@app.route('/register', methods=['POST'])
+def register_post():
+    auth_methods = list(app.config['AUTHS'].keys())
+    authtype = request.form.get('auth_type')
+    if authtype in app.config['AUTHS'].keys():
+        return redirect(url_for('register_' + authtype))
+
+    # This should never happen if people are using the form properly!
+    return redirect(url_for('register'))
+
 
 @app.route('/register/local', methods=['GET', 'POST'])
 def register_local():
