@@ -132,6 +132,18 @@ def login_local():
     return render_template('login_local.html', form=form)
 
 
+"""
+Dummy facebook authentication routes for testing purposes only
+FIXME: This should only work if app.config['AUTH_ENABLE_FACEBOOK'] = True
+"""
+@app.route('/login/facebook')
+def login_facebook():
+    return "/login/facebook - not implemented"
+
+@app.route('/register/facebook')
+def register_facebook():
+    return "/register/facebook - not implemented"
+
 @app.route('/account')
 @login_required
 def account():
