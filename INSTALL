@@ -14,10 +14,14 @@ The command is likely to be something like this:
 
   virtualenv-3.3 pyrpgwnn
 
-If you only have Python 3 installed on your system, you can use the normal
-virtualenv program.
+If you only have Python 3.0 - 3.3 installed on your system, you can use the
+normal virtualenv program.
 
   virtualenv pyrpgwnn
+
+If you have Python 3.3 or higher installed, use pyvenv instead of virtualenv
+
+  pyvenv pyrpgwnn
 
 The virtual environment should create several directories including bin,
 include and lib. The project .gitignore is setup to exclude those from
