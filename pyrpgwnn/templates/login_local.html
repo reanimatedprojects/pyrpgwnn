@@ -1,0 +1,23 @@
+{% extends "layouts/main.html" %}
+{% block content %}
+{% if result is defined %}
+<div class="infobox {{ result.status }}">{{ result.message or result.error }}</div>
+{% endif %}
+
+<div style='width:300px;text-align:right;margin:30px auto 0px auto'>
+<form method="POST" action="/login/local">
+{{ form.hidden_tag() }}
+<fieldset>
+<legend>Login</legend>
+<label for="email">Email:</label><input type="text" name="email"><br>
+<label for="password">Password:</label><input type="password" name="password"><br>
+<input type="submit" value="Login">
+</fieldset>
+</form>
+
+<p>
+<a href="/login/local/pwrecover">Recover password</a>
+</p>
+
+</div>
+{% endblock %}
