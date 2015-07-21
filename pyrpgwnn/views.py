@@ -86,7 +86,15 @@ def register_local():
 
     return render_template('register_local.html', vars = vars)
 
-@app.route('/login')
+"""
+/login - login to an existing account
+    GET - if only one valid authentication method, redirect to it
+        else display a list of authentication methods in a form
+
+    POST - take the form content and redirect to the correct
+        registration location if the provided auth_type is valid.
+"""
+@app.route('/login', methods=['GET'])
 def login():
     auth_methods = list(app.config['AUTHS'].keys())
     if len(auth_methods) == 1:
@@ -95,6 +103,23 @@ def login():
 
     return render_template('login.html', auths=app.config['AUTHS'])
 
+@app.route('/login', methods=['POST'])
+def login_post():
+    auth_methods = list(app.config['AUTHS'].keys())
+    authtype = request.form.get('auth_type')
+    if authtype in app.config['AUTHS'].keys():
+        return redirect(url_for('login_' + authtype))
+
+    # This should never happen if people are using the form properly!
+    return redirect(url_for('login'))
+
+"""
+This section is for the 'local' auth type and includes
+FIXME: This should only work if app.config['AUTH_ENABLE_LOCAL'] = True
+    /login/local
+    /login/local/pwrecover
+    /register/local
+"""
 
 @app.route('/login/local', methods=['GET', 'POST'])
 def login_local():
@@ -132,6 +157,11 @@ def login_local():
     return render_template('login_local.html', form=form)
 
 
+@app.route('/login/local/pwrecover', methods=['GET', 'POST'])
+def login_local_pwrecover():
+    # FIXME: This needs to be implemented
+    return "/login/local/pwrecover - not implemented"
+
 """
 Dummy facebook authentication routes for testing purposes only
 FIXME: This should only work if app.config['AUTH_ENABLE_FACEBOOK'] = True
@@ -143,6 +173,10 @@ def login_facebook():
 @app.route('/register/facebook')
 def register_facebook():
     return "/register/facebook - not implemented"
+
+"""
+Other parts of the application
+"""
 
 @app.route('/account')
 @login_required
