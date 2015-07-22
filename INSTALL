@@ -6,7 +6,12 @@ option at https://github.com/rpgwnn/pyrpgwnn to create a copy within your
 own github account. Once that has been done, you should use the clone URL
 of your forked repository in the following command.
 
-  git clone https://github.com/rpgwnn/pyrpgwnn.git pyrpgwnn
+  git clone git@github.com:$YOUR_GITHUB_USER/pyrpgwnn.git pyrpgwnn
+
+In order to easily merge upstream changes, you should add the upstream
+source URL too.
+
+  git remote add upstream https://github.com/rpgwnn/pyrpgwnn.git
 
 Assuming your system default is Python 2, but you have installed Python 3
 separately, you'll need to create a virtual environment that uses Python 3.
@@ -14,10 +19,14 @@ The command is likely to be something like this:
 
   virtualenv-3.3 pyrpgwnn
 
-If you only have Python 3 installed on your system, you can use the normal
-virtualenv program.
+If you only have Python 3.0 - 3.3 installed on your system, you can use the
+normal virtualenv program.
 
   virtualenv pyrpgwnn
+
+If you have Python 3.3 or higher installed, use pyvenv instead of virtualenv
+
+  pyvenv pyrpgwnn
 
 The virtual environment should create several directories including bin,
 include and lib. The project .gitignore is setup to exclude those from
@@ -42,8 +51,17 @@ the virtual environment, you should run:
 After this, setup the database
 
   ./shell.py
-  >>> from pyrpgwnn import db
+  >>> from pyrpgwnn import db, model
   >>> db.create_all()
+  >>> a = model.Account(email='test@example.com')
+  >>> db.session.add(a)
+  >>> db.session.commit()
   >>> quit()
 
-the file pyrpgwnn/rpgwnn.db has been created
+the file pyrpgwnn/rpgwnn.db has been created and a test account has
+been created with the email address test@example.com
+As of commit 83cbca6 (21st July 2015), you can then login with the
+local authentication method using the following details:
+    email address: test@example.com
+    password: wibble
+The password is hardcoded into views.py at present, but this will change.
