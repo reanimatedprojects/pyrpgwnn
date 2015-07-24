@@ -1,0 +1,18 @@
+== Managing the database schema ==
+
+When a change has been made to the model, you need to update the
+database schema to reflect the change. The command to do this is:
+
+  ./manage.py db migrate
+
+This will create an additional file in the migrations directory
+which should be committed.
+Next the migration needs to be applied to the database using:
+
+  ./manage.py db upgrade
+
+If you have pulled a new copy of the git repository and notice
+the migrations directory has extra files, just run the upgrade
+command. This is because the person who updated the schema will
+have run the migrate command to create the migration files 
+already and all you need to do is upgrade your database.
