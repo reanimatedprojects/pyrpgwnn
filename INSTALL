@@ -48,11 +48,12 @@ the virtual environment, you should run:
 
   pip install -r requirements.txt
 
-After this, setup the database
+After this, setup the database and bring the schema up to the current one.
+
+  ./manage.py db upgrade
 
   ./shell.py
   >>> from pyrpgwnn import db, model
-  >>> db.create_all()
   >>> a = model.Account(email='test@example.com')
   >>> db.session.add(a)
   >>> db.session.commit()
