@@ -35,6 +35,30 @@ class AccountAuth(db.Model):
     account_id = db.Column(db.Integer, db.ForeignKey('account.account_id'))
     auth_type = db.Column(db.String(10), nullable=False)
 
+    def get_class_by_tablename(self, tablename):
+        """Return class reference mapped to table.
+
+        :param tablename: String with name of table.
+        :return: Class reference or None.
+        """
+        for c in db.Model._decl_class_registry.values():
+            if hasattr(c, '__tablename__') and c.__tablename__ == tablename:
+                return c
+
+    def auth_info(self):
+        """Returns the object from the relevant auth class
+
+        :return: Object from db or None
+        """
+        authclass = self.get_class_by_tablename( "account_auth_" + self.auth_type )
+        if authclass == None:
+            # Non-existant authentication method
+            return None
+        return authclass.query.filter_by( account_auth_id = self.account_auth_id ).one()
+
+    def __repr__(self):
+        return '<AccountAuth %d (type: %r)>' % ( self.account_auth_id, self.auth_type )
+
 class AccountAuthLocal(db.Model):
     __tablename__ = 'account_auth_local'
     id = db.Column(db.Integer, primary_key=True)
@@ -42,6 +66,9 @@ class AccountAuthLocal(db.Model):
     # Extra parameters required specifically for this auth method
     # Encrypted password
     password = db.Column(db.String(255), nullable=False)
+
+    def __repr__(self):
+        return '<AccountAuthLocal %d (%r)>' % ( self.id, self.password )
 
 class Character(db.Model):
     character_id = db.Column(db.Integer, primary_key=True)

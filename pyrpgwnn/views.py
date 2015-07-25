@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request, g
+from flask import render_template, redirect, url_for, request, g, flash
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from pyrpgwnn import app, db, login_manager, flask_bcrypt
 from pyrpgwnn.model import Account
@@ -143,7 +143,7 @@ def login_local():
         account = Account.query.filter_by(email = form.email.data).first()
         print(account)
         # if account and flask_bcrypt.check_password_hash(account.password, form.password.data):
-        if account and flask_bcrypt.check_password_hash('$2a$12$NmPLLbCTttv74jLV.5KojusYErzFwCyz6Iqi5Q3f19ZHrSJqfSwRe', form.password.data):
+        if account and flask_bcrypt.check_password_hash(account.account_auths.filter_by(auth_type='local').one().auth_info().password, form.password.data):
             print("authenticated")
             account.authenticated = True
             # this saves the account object in the db.. eg for 'last login' timestamps.
@@ -152,6 +152,8 @@ def login_local():
             #db.session.commit()
             login_user(account, remember=True)
             return redirect(url_for('account'))
+        else:
+            flash('Incorrect email or password')
 
     # return flask.render_template('login_local.html', form=form)
     return render_template('login_local.html', form=form)
